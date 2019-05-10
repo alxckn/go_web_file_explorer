@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,700" rel="stylesheet">
+
+    <style>
+      body {
+        font-family: 'Muli', sans-serif;
+      }
+
+      .folder {
+        border:  1px solid #EEEEEE;
+        margin: 10px 0px;
+      }
+
+      .folder .folder__name {
+        text-align: center;
+        color: #FFFFFF;
+        font-weight: 700;
+        background-color: #454545;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .file {
+        border: 1px solid #EEEEEE;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .file .file__cta {
+        border-left: 1px solid #EEEEEE;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content">
+      <div class="container">
+        <div class="row folder">
+          <div class="col-12 folder__name">
+            <a href="/?dir={{$.Previous}}"><i data-feather="corner-up-left"></i></a>
+          </div>
+        </div>
+        {{if .Files}}
+        <div class="row folder">
+          <div class="col-md-6 folder__name"><i data-feather="folder"></i> {{$.Current}}</div>
+          <div class="col-md-6 container files">
+            {{range .Files}}
+            <div class="row file">
+              <div class="col-8 file__name">{{.name}}</div>
+              <div class="col-2 file__cta"><a href=""><i data-feather="clipboard"></i></a></div>
+              <div class="col-2 file__cta"><a href="{{.url}}" target="_blank"><i data-feather="external-link"></i></a></div>
+            </div>
+            {{end}}
+          </div>
+        </div>
+        {{else}}
+        <div class="row folder">
+          <div class="col-12 folder__name">
+            <i data-feather="folder"></i> {{$.Current}}
+          </div>
+        </div>
+        {{end}}
+        {{range .Dirs}}
+        <div class="row folder">
+          <div class="col-12 folder__name">
+            <a href="/?dir={{.path}}"><i data-feather="folder-plus"></i> {{.name}}</a>
+          </div>
+        </div>
+        {{end}}
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
+

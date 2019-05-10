@@ -1,0 +1,15 @@
+version: '3.4'
+services:
+  web:
+    user: "1000:1000"
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      NGINX_URL: "http://localhost:8081/"
+  nginx:
+    build: nginx
+    ports:
+      - "8081:8081"
+    volumes:
+      - "./test:/srv/secure"
