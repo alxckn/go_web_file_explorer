@@ -9,6 +9,12 @@
         font-family: 'Muli', sans-serif;
       }
 
+      input {
+        position: absolute;
+        opacity: 0;
+        height: .1px;
+      }
+
       .folder {
         border:  1px solid #EEEEEE;
         margin: 10px 0px;
@@ -33,10 +39,27 @@
         border-left: 1px solid #EEEEEE;
         text-align: center;
       }
+
+      #notification {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 200px;
+        bottom: 10px;
+        padding: 20px 0px;
+        color: #FFFFFF;
+        font-weight: 700;
+        background-color: #454545;
+        text-align: center;
+        display: none;
+      }
     </style>
   </head>
 
   <body>
+    <input type="text" id="copy-text">
     <div class="content">
       <div class="container">
         <div class="row folder">
@@ -51,7 +74,7 @@
             {{range .Files}}
             <div class="row file">
               <div class="col-8 file__name">{{.name}}</div>
-              <div class="col-2 file__cta"><a href=""><i data-feather="clipboard"></i></a></div>
+              <div class="col-2 file__cta"><a href="" class="copy_link" data-link="{{.url}}"><i data-feather="clipboard"></i></a></div>
               <div class="col-2 file__cta"><a href="{{.url}}" target="_blank"><i data-feather="external-link"></i></a></div>
             </div>
             {{end}}
@@ -74,9 +97,34 @@
       </div>
     </div>
 
+    <div id="notification">
+      Copied!
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script>
       feather.replace()
+
+      document.querySelectorAll(".copy_link").forEach(function(link) {
+        link.addEventListener("click", function(e) {
+          e.preventDefault();
+          var url = this.dataset.link;
+
+          var input = document.getElementById("copy-text");
+          input.value = url;
+          input.select();
+          success = document.execCommand("copy", false, null);
+
+          if (success) {
+            notif = document.querySelector("#notification")
+            notif.style.display = "block";
+            setTimeout(() => {
+              notif.style.display = "none";
+            }, 1000);
+          }
+        });
+      });
+
     </script>
   </body>
 </html>
